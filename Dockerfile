@@ -1,10 +1,12 @@
-FROM node
+FROM node:17-alpine
 
-RUN git clone https://github.com/goerli/netstats-server /netstats-server
-WORKDIR /netstats-server
-RUN npm install
-RUN npm install -g grunt-cli
-RUN grunt
-
-EXPOSE  3000
+EXPOSE 3000
 CMD ["npm", "start"]
+
+RUN apk add --no-cache git
+WORKDIR /app
+
+COPY package.json ./
+RUN npm i
+
+COPY . .
